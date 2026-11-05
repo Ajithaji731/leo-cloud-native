@@ -38,4 +38,4 @@ COPY services/ai-agent-service ./services/ai-agent-service
 EXPOSE 8080
 
 # SRE Best Practice: Start habit & wealthflow services in background, then run gateway in foreground
-CMD sh -c "PORT=8081 node services/habit-service/src/index.js & PORT=8082 node services/wealthflow-service/src/index.js & exec PORT=8080 node services/ai-agent-service/src/index.js"
+CMD sh -c "PORT=8081 node services/habit-service/src/index.js & PORT=8082 node services/wealthflow-service/src/index.js & node services/ai-agent-service/src/index.js"
