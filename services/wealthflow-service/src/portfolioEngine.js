@@ -36,13 +36,10 @@ async function refreshInvestFromCloud() {
   return investFetchPromise;
 }
 
-// Fetch live investment state: SRE Stale-While-Revalidate (0ms instant return if cached)
+// Fetch live investment state: SRE 5-Second Cache (0ms instant return if within 5s, fresh sync from cloud when returning)
 async function fetchInvestCloudState(force = false) {
   const now = Date.now();
-  if (!force && cachedInvestState && cachedInvestState.records && Object.keys(cachedInvestState.records).length > 0) {
-    if (now - lastInvestFetchTime > 60000) {
-      refreshInvestFromCloud().catch(() => {});
-    }
+  if (!force && cachedInvestState && cachedInvestState.records && Object.keys(cachedInvestState.records).length > 0 && (now - lastInvestFetchTime < 5000)) {
     return cachedInvestState;
   }
   return refreshInvestFromCloud();

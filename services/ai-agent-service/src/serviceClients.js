@@ -17,8 +17,8 @@ async function fetchHabits({ date, force = false } = {}) {
   if (!res.ok) throw new Error(`Habit service error: ${res.statusText}`);
   const data = await res.json();
 
-  // Cache for 30 seconds
-  cache.set(cacheKey, data, 30);
+  // Cache for 5 seconds for rapid chat queries
+  cache.set(cacheKey, data, 5);
   return { data, fromCache: false };
 }
 
@@ -52,8 +52,8 @@ async function fetchWealthSummary({ month, force = false } = {}) {
   if (!res.ok) throw new Error(`WealthFlow service error: ${res.statusText}`);
   const data = await res.json();
 
-  // Cache for 60 seconds
-  cache.set(cacheKey, data, 60);
+  // Cache for 5 seconds for rapid chat queries
+  cache.set(cacheKey, data, 5);
   return { data, fromCache: false };
 }
 

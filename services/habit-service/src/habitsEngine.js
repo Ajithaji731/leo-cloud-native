@@ -74,14 +74,10 @@ async function refreshHabitsFromCloud() {
   return habitsFetchPromise;
 }
 
-// Fetch live habit state: SRE Stale-While-Revalidate (0ms instant return if cached)
+// Fetch live habit state: SRE 5-Second Cache (0ms instant return if within 5s, fresh sync from cloud when returning)
 async function getHabitsState(forceRefresh = false) {
   const now = Date.now();
-  if (cachedHabits && cachedHabits.length > 0 && !forceRefresh) {
-    // If older than 60s, refresh silently in background without blocking caller!
-    if (now - lastHabitFetchTime > 60000) {
-      refreshHabitsFromCloud().catch(() => {});
-    }
+  if (!forceRefresh && cachedHabits && cachedHabits.length > 0 && (now - lastHabitFetchTime < 5000)) {
     return { habits: cachedHabits, rawData: cachedHabitsRaw, isObjectWrapper: isObjectWrapperHabits };
   }
   return refreshHabitsFromCloud();
