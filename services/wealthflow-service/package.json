@@ -1,0 +1,16 @@
+{
+  "name": "wealthflow-service",
+  "version": "1.0.0",
+  "description": "Dedicated microservice for investment asset catalog, monthly portfolio records, and net worth engine",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}

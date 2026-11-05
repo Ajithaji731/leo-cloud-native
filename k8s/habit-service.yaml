@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: habit-service
+  labels:
+    app: habit-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: habit-service
+  template:
+    metadata:
+      labels:
+        app: habit-service
+    spec:
+      containers:
+      - name: habit-service
+        image: ai-agent-habit-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8081
+        env:
+        - name: PORT
+          value: "8081"
+        - name: SECURE_ID
+          value: "2108"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 3
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: habit-service
+  labels:
+    app: habit-service
+spec:
+  type: ClusterIP
+  selector:
+    app: habit-service
+  ports:
+  - port: 8081
+    targetPort: 8081
+    protocol: TCP

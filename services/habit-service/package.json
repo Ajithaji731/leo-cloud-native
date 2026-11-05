@@ -1,0 +1,16 @@
+{
+  "name": "habit-service",
+  "version": "1.0.0",
+  "description": "Dedicated microservice for daily habit tracking, streaks, and completion logging",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}

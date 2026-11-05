@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  habit-service:
+    build:
+      context: ./services/habit-service
+    container_name: habit-service
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=8081
+    networks:
+      - app-net
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8081/healthz"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+
+  wealthflow-service:
+    build:
+      context: ./services/wealthflow-service
+    container_name: wealthflow-service
+    ports:
+      - "8082:8082"
+    environment:
+      - PORT=8082
+    networks:
+      - app-net
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8082/healthz"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+
+  ai-agent-service:
+    build:
+      context: ./services/ai-agent-service
+    container_name: ai-agent-service
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - HABIT_SERVICE_URL=http://habit-service:8081
+      - WEALTHFLOW_SERVICE_URL=http://wealthflow-service:8082
+    depends_on:
+      habit-service:
+        condition: service_healthy
+      wealthflow-service:
+        condition: service_healthy
+    networks:
+      - app-net
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8080/healthz"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+
+networks:
+  app-net:
+    driver: bridge

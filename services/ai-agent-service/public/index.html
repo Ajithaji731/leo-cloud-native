@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AI Agent">
+  <title>Leo - Personal AI Agent</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+  <!-- Chat Screen -->
+  <div id="chatScreen" class="chat-screen">
+    <header class="glass-panel">
+      <div class="header-content">
+        <div class="logo">
+          <span style="font-size: 1.5rem;">🦁</span>
+          <h1>Leo</h1>
+        </div>
+        
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <div id="apiKeyBadge" class="key-badge" title="Groq API Key valid until Aug 20, 2027">
+            <i data-lucide="key"></i>
+            <span>API Key: Valid till Aug 2027</span>
+          </div>
+          <select id="theme-selector" style="background: rgba(255,255,255,0.1); color: inherit; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 4px 8px; font-family: inherit; font-size: 0.85rem; outline: none; cursor: pointer;">
+            <option value="default" style="background: #111827;">Default Dark</option>
+            <option value="alt-dark" style="background: #000;">OLED Dark</option>
+            <option value="light" style="background: #fff; color: #000;">Light Theme</option>
+          </select>
+          <button id="clearHistoryBtn" class="icon-btn" aria-label="Clear History" title="Clear Chat History">
+            <i data-lucide="trash-2"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div id="chatContainer" class="chat-container">
+      <div class="message ai-message">
+        <div class="message-content glass-panel">
+          Hi Ajith! Leo here. 🦁 I can help you track your habits and log your investments. What did you do today?
+        </div>
+      </div>
+    </div>
+
+    <div class="input-area glass-panel">
+      <div class="quick-chips-container" id="quickChipsContainer">
+        <button type="button" class="chip-btn" data-query="what all i did today">
+          <span>📅</span> What all I did today
+        </button>
+        <button type="button" class="chip-btn" data-query="total networth">
+          <span>💰</span> Total networth
+        </button>
+        <button type="button" class="chip-btn" data-query="what is pending">
+          <span>⏳</span> Pending habits
+        </button>
+        <button type="button" class="chip-btn" data-query="weekly summary">
+          <span>📊</span> Weekly summary
+        </button>
+        <button type="button" class="chip-btn" data-query="stocks">
+          <span>📈</span> Stocks & ETFs
+        </button>
+        <button type="button" class="chip-btn" data-query="mutual funds">
+          <span>🏦</span> Mutual funds
+        </button>
+      </div>
+
+      <form id="chatForm">
+        <input type="text" id="chatInput" placeholder="Message Leo..." autocomplete="off">
+        <button type="submit" id="sendBtn" class="icon-btn primary-btn" aria-label="Send">
+          <i data-lucide="send"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast hidden">
+    <i data-lucide="check-circle" class="toast-icon"></i>
+    <span id="toastMsg">Success</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
